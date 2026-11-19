@@ -92,7 +92,8 @@ def c_factor_from_item(item: pystac.item.Item, to_epsg: str) -> xr.DataArray:
         c-factor.
     """
     # Retrieve the EPSG from the item
-    SOURCE_EPSG = item.properties["proj:epsg"]
+    proj = item.properties.get("proj:epsg") or item.properties["proj:code"]
+    SOURCE_EPSG = int(str(proj).split(":")[-1])
 
     # Get the EPSG from the string
     TO_EPSG = float(to_epsg.split(":")[-1])
